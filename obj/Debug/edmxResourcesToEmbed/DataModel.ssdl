@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AngularBootcampModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="OrderDetails">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PurchaserName" Type="nvarchar" MaxLength="40" />
+    <Property Name="PurchaserPhone" Type="varchar" MaxLength="20" />
+    <Property Name="PurchaserEmail" Type="varchar" MaxLength="320" />
+    <Property Name="BillingStreet" Type="varchar" MaxLength="120" />
+    <Property Name="BillingStreet2" Type="varchar" MaxLength="120" />
+    <Property Name="BillingCity" Type="varchar" MaxLength="80" />
+    <Property Name="BillingState" Type="varchar" MaxLength="40" />
+    <Property Name="BillingZip" Type="varchar" MaxLength="11" />
+    <Property Name="ShippingStreet" Type="varchar" MaxLength="120" />
+    <Property Name="ShippingStreet2" Type="varchar" MaxLength="120" />
+    <Property Name="ShippingCity" Type="varchar" MaxLength="80" />
+    <Property Name="ShippingState" Type="varchar" MaxLength="40" />
+    <Property Name="ShippingZip" Type="varchar" MaxLength="11" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserCartItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Count" Type="int" Nullable="false" />
+    <Property Name="Price" Type="money" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserPurchaseHistoryItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Price" Type="money" Nullable="false" />
+    <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="varchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__OrderDeta__UserI__6FE99F9F">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserCartI__UserI__4CA06362">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UserCartItems" Type="Self.UserCartItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserCartItems">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserPurch__Order__7A672E12">
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="1" />
+    <End Role="UserPurchaseHistoryItems" Type="Self.UserPurchaseHistoryItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderDetails">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="UserPurchaseHistoryItems">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserPurch__UserI__797309D9">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UserPurchaseHistoryItems" Type="Self.UserPurchaseHistoryItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPurchaseHistoryItems">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Users__RoleId__2D27B809">
+    <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AngularBootcampModelStoreContainer">
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserCartItems" EntityType="Self.UserCartItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserPurchaseHistoryItems" EntityType="Self.UserPurchaseHistoryItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__OrderDeta__UserI__6FE99F9F" Association="Self.FK__OrderDeta__UserI__6FE99F9F">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserCartI__UserI__4CA06362" Association="Self.FK__UserCartI__UserI__4CA06362">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserCartItems" EntitySet="UserCartItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserPurch__Order__7A672E12" Association="Self.FK__UserPurch__Order__7A672E12">
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+      <End Role="UserPurchaseHistoryItems" EntitySet="UserPurchaseHistoryItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserPurch__UserI__797309D9" Association="Self.FK__UserPurch__UserI__797309D9">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserPurchaseHistoryItems" EntitySet="UserPurchaseHistoryItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Users__RoleId__2D27B809" Association="Self.FK__Users__RoleId__2D27B809">
+      <End Role="UserRoles" EntitySet="UserRoles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

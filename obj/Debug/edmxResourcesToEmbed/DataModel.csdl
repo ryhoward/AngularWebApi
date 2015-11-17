@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AngularBootcampModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="AngularBootcampEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="OrderDetails" EntityType="AngularBootcampModel.OrderDetail" />
+    <EntitySet Name="UserCartItems" EntityType="AngularBootcampModel.UserCartItem" />
+    <EntitySet Name="UserRoles" EntityType="AngularBootcampModel.UserRole" />
+    <EntitySet Name="Users" EntityType="AngularBootcampModel.User" />
+    <AssociationSet Name="FK__OrderDeta__UserI__6FE99F9F" Association="AngularBootcampModel.FK__OrderDeta__UserI__6FE99F9F">
+      <End Role="User" EntitySet="Users" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserCartI__UserI__4CA06362" Association="AngularBootcampModel.FK__UserCartI__UserI__4CA06362">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserCartItem" EntitySet="UserCartItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Users__RoleId__2D27B809" Association="AngularBootcampModel.FK__Users__RoleId__2D27B809">
+      <End Role="UserRole" EntitySet="UserRoles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="UserPurchaseHistoryItems" EntityType="AngularBootcampModel.UserPurchaseHistoryItem" />
+    <AssociationSet Name="FK__UserPurch__Order__7A672E12" Association="AngularBootcampModel.FK__UserPurch__Order__7A672E12">
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+      <End Role="UserPurchaseHistoryItem" EntitySet="UserPurchaseHistoryItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserPurch__UserI__797309D9" Association="AngularBootcampModel.FK__UserPurch__UserI__797309D9">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserPurchaseHistoryItem" EntitySet="UserPurchaseHistoryItems" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurchaserName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="PurchaserPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PurchaserEmail" Type="String" MaxLength="320" FixedLength="false" Unicode="false" />
+    <Property Name="BillingStreet" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="BillingStreet2" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="BillingCity" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="BillingState" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="BillingZip" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingStreet" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingStreet2" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingCity" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingState" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingZip" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="AngularBootcampModel.FK__OrderDeta__UserI__6FE99F9F" FromRole="OrderDetail" ToRole="User" />
+    <NavigationProperty Name="UserPurchaseHistoryItems" Relationship="AngularBootcampModel.FK__UserPurch__Order__7A672E12" FromRole="OrderDetail" ToRole="UserPurchaseHistoryItem" />
+  </EntityType>
+  <EntityType Name="UserCartItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="AngularBootcampModel.FK__UserCartI__UserI__4CA06362" FromRole="UserCartItem" ToRole="User" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Role" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Users" Relationship="AngularBootcampModel.FK__Users__RoleId__2D27B809" FromRole="UserRole" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrderDetails" Relationship="AngularBootcampModel.FK__OrderDeta__UserI__6FE99F9F" FromRole="User" ToRole="OrderDetail" />
+    <NavigationProperty Name="UserCartItems" Relationship="AngularBootcampModel.FK__UserCartI__UserI__4CA06362" FromRole="User" ToRole="UserCartItem" />
+    <NavigationProperty Name="UserRole" Relationship="AngularBootcampModel.FK__Users__RoleId__2D27B809" FromRole="User" ToRole="UserRole" />
+    <NavigationProperty Name="UserPurchaseHistoryItems" Relationship="AngularBootcampModel.FK__UserPurch__UserI__797309D9" FromRole="User" ToRole="UserPurchaseHistoryItem" />
+  </EntityType>
+  <Association Name="FK__OrderDeta__UserI__6FE99F9F">
+    <End Type="AngularBootcampModel.User" Role="User" Multiplicity="1" />
+    <End Type="AngularBootcampModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserCartI__UserI__4CA06362">
+    <End Type="AngularBootcampModel.User" Role="User" Multiplicity="1" />
+    <End Type="AngularBootcampModel.UserCartItem" Role="UserCartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserCartItem">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Users__RoleId__2D27B809">
+    <End Type="AngularBootcampModel.UserRole" Role="UserRole" Multiplicity="1" />
+    <End Type="AngularBootcampModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserPurchaseHistoryItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrderDetail" Relationship="AngularBootcampModel.FK__UserPurch__Order__7A672E12" FromRole="UserPurchaseHistoryItem" ToRole="OrderDetail" />
+    <NavigationProperty Name="User" Relationship="AngularBootcampModel.FK__UserPurch__UserI__797309D9" FromRole="UserPurchaseHistoryItem" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__UserPurch__Order__7A672E12">
+    <End Type="AngularBootcampModel.OrderDetail" Role="OrderDetail" Multiplicity="1" />
+    <End Type="AngularBootcampModel.UserPurchaseHistoryItem" Role="UserPurchaseHistoryItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderDetail">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="UserPurchaseHistoryItem">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserPurch__UserI__797309D9">
+    <End Type="AngularBootcampModel.User" Role="User" Multiplicity="1" />
+    <End Type="AngularBootcampModel.UserPurchaseHistoryItem" Role="UserPurchaseHistoryItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPurchaseHistoryItem">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
